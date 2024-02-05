@@ -5,14 +5,6 @@
 
 A react library developed with dumi
 
-## Usage
-
-TODO
-
-## Options
-
-TODO
-
 ## Development
 
 ```bash

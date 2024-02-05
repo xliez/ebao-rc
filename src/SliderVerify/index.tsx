@@ -7,6 +7,10 @@ import React, {
 } from 'react';
 import style from './style.module.less';
 
+import refresh from '../../assets/icons/refresh.svg';
+import close from '../../assets/icons/close.svg';
+import slider from '../../assets/icons/slider.svg';
+
 type IEvent = React.TouchEvent | React.MouseEvent | MouseEvent | TouchEvent;
 
 interface ICurrentCaptchaConfig {
@@ -100,7 +104,6 @@ export default function SliderVerify(props: SliderVerifyProps) {
     end = 206,
   ) => {
     if (sliderMoveBtn.current) {
-      sliderMoveBtn.current.style.backgroundPosition = '-5px 11.79625%';
       sliderMoveBtn.current.style.transform = 'translate(0px, 0px)';
     }
 
@@ -255,22 +258,25 @@ export default function SliderVerify(props: SliderVerifyProps) {
       <div className={style['slider-move']}>
         <div className={style['slider-move-track']}>拖动滑块完成拼图</div>
         <div
-          className={`${style['slider-move-btn']}`}
           ref={sliderMoveBtn}
+          className={style['slider-move-btn']}
           onMouseDown={handleMouseDown}
           onTouchStart={handleMouseDown}
-        />
+          
+        >
+          <img src={slider} className={style['slider-move-btn-img']} />
+        </div>
       </div>
       <div className={style['bottom']}>
-        <div
-          className={style['close-btn']}
-          id="slider-close-btn"
-          onClick={props.onClose}
-        />
-        <div
+        <img
           className={style['refresh-btn']}
-          id="slider-refresh-btn"
           onClick={fetchVerify}
+          src={refresh}
+        />
+        <img
+          className={style['close-btn']}
+          onClick={props.onClose}
+          src={close}
         />
       </div>
     </div>
