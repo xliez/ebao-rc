@@ -1,8 +1,8 @@
 import cls from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import close from '../../assets/icons/close.svg';
-import refresh from '../../assets/icons/refresh.svg';
-import slider from '../../assets/icons/slider.svg';
+import close from './icons/close.svg';
+import refresh from './icons/refresh.svg';
+import slider from './icons/slider.svg';
 import style from './style.module.less';
 
 type IEvent = React.TouchEvent | React.MouseEvent | MouseEvent | TouchEvent;
