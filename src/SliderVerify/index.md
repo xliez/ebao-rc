@@ -2,6 +2,20 @@
 
 滑块验证码组件
 
+## 安装
+
+```bash
+npm install @xliez/ebao-rc
+```
+
+## 使用
+
+导入对应组件
+
+```tsx | pure
+import { SliderVerify } from '@xliez/ebao-rc';
+```
+
 ## 代码演示
 
 <code src="./demo.tsx"></code>
