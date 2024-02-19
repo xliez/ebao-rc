@@ -67,6 +67,20 @@ const getPagePos = (event: IEvent) => {
   };
 };
 
+const isSupportTouch = 'ontouchstart' in window;
+
+const eventShim = isSupportTouch
+  ? {
+      start: 'touchstart',
+      move: 'touchmove',
+      end: 'touchend',
+    }
+  : {
+      start: 'mousedown',
+      move: 'mousemove',
+      end: 'mouseup',
+    };
+
 export default function SliderVerify(props: SliderVerifyProps) {
   const id = useRef('');
   const [bgImg, setBgImg] = useState('');
@@ -182,10 +196,8 @@ export default function SliderVerify(props: SliderVerifyProps) {
   };
 
   const up = (event: IEvent) => {
-    sliderMoveBtn.current?.removeEventListener('mousemove', move);
-    sliderMoveBtn.current?.removeEventListener('mouseup', up);
-    sliderMoveBtn.current?.removeEventListener('touchmove', move);
-    sliderMoveBtn.current?.removeEventListener('touchend', up);
+    document.removeEventListener(eventShim.move, move as any);
+    document.removeEventListener(eventShim.end, up as any);
 
     currentCaptchaConfig.current.endSlidingTime = new Date();
     const { x: pageX, y: pageY } = getPagePos(event);
@@ -225,14 +237,17 @@ export default function SliderVerify(props: SliderVerifyProps) {
       t: new Date().getTime() - startSlidingTime.getTime(),
     });
 
-    sliderMoveBtn.current?.addEventListener('mousemove', move);
-    sliderMoveBtn.current?.addEventListener('mouseup', up);
-    sliderMoveBtn.current?.addEventListener('touchmove', move);
-    sliderMoveBtn.current?.addEventListener('touchend', up);
+    document.addEventListener(eventShim.move, move as any);
+    document.addEventListener(eventShim.end, up as any);
   };
 
   useEffect(() => {
     fetchVerify();
+
+    return () => {
+      document.removeEventListener(eventShim.move, move as any);
+      document.removeEventListener(eventShim.end, up as any);
+    };
   }, [fetchVerify]);
 
   return (
