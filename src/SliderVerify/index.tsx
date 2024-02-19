@@ -1,15 +1,9 @@
 import cls from 'classnames';
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import style from './style.module.less';
-
-import refresh from '../../assets/icons/refresh.svg';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import close from '../../assets/icons/close.svg';
+import refresh from '../../assets/icons/refresh.svg';
 import slider from '../../assets/icons/slider.svg';
+import style from './style.module.less';
 
 type IEvent = React.TouchEvent | React.MouseEvent | MouseEvent | TouchEvent;
 
@@ -30,7 +24,7 @@ interface ICurrentCaptchaConfig {
 export interface SliderVerifyProps {
   className?: string;
   onClose?: () => void;
-  onSuccess?: (result: any) => void;
+  onSuccess?: (result: { matching: boolean; smsSendKey: string }) => void;
   onFail?: () => void;
   getVerifyCode: () => Promise<{
     id: string;
@@ -56,21 +50,21 @@ const getPagePos = (event: IEvent) => {
     return {
       x: event.pageX,
       y: event.pageY,
-    }
+    };
   }
 
-  if ( 'touches' in event ) {
+  if ('touches' in event) {
     const touch = event.touches[0] || event.changedTouches[0];
     return {
       x: touch.pageX,
       y: touch.pageY,
-    }
+    };
   }
 
   return {
     x: 0,
     y: 0,
-  }
+  };
 };
 
 export default function SliderVerify(props: SliderVerifyProps) {
@@ -141,7 +135,6 @@ export default function SliderVerify(props: SliderVerifyProps) {
     );
   }, [props.getVerifyCode]);
 
-
   const validate = async () => {
     const result = await props.checkVerifyCode({
       id: id.current,
@@ -194,7 +187,6 @@ export default function SliderVerify(props: SliderVerifyProps) {
     sliderMoveBtn.current?.removeEventListener('touchmove', move);
     sliderMoveBtn.current?.removeEventListener('touchend', up);
 
-
     currentCaptchaConfig.current.endSlidingTime = new Date();
     const { x: pageX, y: pageY } = getPagePos(event);
     const { startX, startY, startSlidingTime, trackList } =
@@ -218,7 +210,6 @@ export default function SliderVerify(props: SliderVerifyProps) {
 
   const handleMouseDown = (event: IEvent) => {
     const { x: startX, y: startY } = getPagePos(event);
-    
 
     currentCaptchaConfig.current.startX = startX;
     currentCaptchaConfig.current.startY = startY;
@@ -239,7 +230,6 @@ export default function SliderVerify(props: SliderVerifyProps) {
     sliderMoveBtn.current?.addEventListener('touchmove', move);
     sliderMoveBtn.current?.addEventListener('touchend', up);
   };
-
 
   useEffect(() => {
     fetchVerify();
@@ -262,7 +252,6 @@ export default function SliderVerify(props: SliderVerifyProps) {
           className={style['slider-move-btn']}
           onMouseDown={handleMouseDown}
           onTouchStart={handleMouseDown}
-          
         >
           <img src={slider} className={style['slider-move-btn-img']} />
         </div>
