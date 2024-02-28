@@ -1,8 +1,8 @@
 import cls from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import close from './icons/close.svg';
-import refresh from './icons/refresh.svg';
-import slider from './icons/slider.svg';
+import Close from './icons/close';
+import Refresh from './icons/refresh';
+import Slider from './icons/slider';
 import style from './style.module.less';
 
 type IEvent = React.TouchEvent | React.MouseEvent | MouseEvent | TouchEvent;
@@ -268,20 +268,18 @@ export default function SliderVerify(props: SliderVerifyProps) {
           onMouseDown={handleMouseDown}
           onTouchStart={handleMouseDown}
         >
-          <img src={slider} className={style['slider-move-btn-img']} />
+          <div className={style['slider-move-btn-img']}>
+            <Slider />
+          </div>
         </div>
       </div>
       <div className={style['bottom']}>
-        <img
-          className={style['refresh-btn']}
-          onClick={fetchVerify}
-          src={refresh}
-        />
-        <img
-          className={style['close-btn']}
-          onClick={props.onClose}
-          src={close}
-        />
+        <div className={style['refresh-btn']} onClick={fetchVerify}>
+          <Refresh />
+        </div>
+        <div className={style['close-btn']} onClick={props.onClose}>
+          <Close />
+        </div>
       </div>
     </div>
   );
